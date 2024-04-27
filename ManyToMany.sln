@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{09466CF2-3060-415A-B39E-1F00CCCF7C9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManyToMany.Infrastructure", "ManyToMany.Infrastructure\ManyToMany.Infrastructure.csproj", "{D914A715-A0C6-4C3C-AFA6-0051365C1551}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{C5B24CEF-D59A-4A30-97C5-3F897A4540BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManyToManyApp", "ManyToManyApp\ManyToManyApp.csproj", "{19A35CB8-2F0E-405D-96D7-04AA8EFDD82D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLScripts", "SQLScripts", "{AAAF052D-D143-4FE9-8DB1-FEDAB733ADFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D914A715-A0C6-4C3C-AFA6-0051365C1551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D914A715-A0C6-4C3C-AFA6-0051365C1551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D914A715-A0C6-4C3C-AFA6-0051365C1551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D914A715-A0C6-4C3C-AFA6-0051365C1551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19A35CB8-2F0E-405D-96D7-04AA8EFDD82D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19A35CB8-2F0E-405D-96D7-04AA8EFDD82D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19A35CB8-2F0E-405D-96D7-04AA8EFDD82D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19A35CB8-2F0E-405D-96D7-04AA8EFDD82D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D914A715-A0C6-4C3C-AFA6-0051365C1551} = {09466CF2-3060-415A-B39E-1F00CCCF7C9F}
+		{19A35CB8-2F0E-405D-96D7-04AA8EFDD82D} = {C5B24CEF-D59A-4A30-97C5-3F897A4540BA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B15E9511-3958-4A6E-A73E-D09CA2AB2843}
+	EndGlobalSection
+EndGlobal

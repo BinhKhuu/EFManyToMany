@@ -20,12 +20,37 @@ public partial class ManyToManyContext : DbContext
 
     public virtual DbSet<Tag> Tags { get; set; }
 
+    public virtual DbSet<Student> Students { get; set; }
+    public virtual DbSet<Course> Courses { get; set; }
+
+    public virtual DbSet<StudentCourse> StudentCourses { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFManyToMany;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
 
+    private void buildTwo_OneToMany(ModelBuilder modelBuilder)
+    {
+        // two one-to-many 
+        modelBuilder.Entity<Student>(entity =>
+        {
+            entity.Property(s => s.Id).ValueGeneratedNever();
+            //EF automatically maps this, will cause issues if you map it yourself
+            //entity.HasMany<StudentCourse>().WithOne(s => s.Student).HasForeignKey("StudentId");
+        });
+
+        modelBuilder.Entity<Course>(entity =>
+        {
+            entity.Property(c => c.Id).ValueGeneratedNever();
+            //EF automatically maps this, will cause issues if you map it yourself
+            //entity.HasMany<StudentCourse>().WithOne(c => c.Course).HasForeignKey("CourseId");
+        });
+
+        modelBuilder.Entity<StudentCourse>().HasKey(x => new { x.StudentId, x.CourseId });
+    }
+
+    private void buildManyToMany(ModelBuilder modelBuilder)
+    {
         // Build the entity and relationships - Let EF do this for you
         modelBuilder.Entity<Post>(entity =>
         {
@@ -75,6 +100,11 @@ public partial class ManyToManyContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
+
+    }
+
+    private void SeedData(ModelBuilder modelBuilder)
+    {
         // Seed data
         modelBuilder.Entity<Post>().HasData(new Post { Id = 1 });
         modelBuilder.Entity<Tag>().HasData(new Tag { Id = 1 });
@@ -94,7 +124,13 @@ public partial class ManyToManyContext : DbContext
 
         // Run Add-Migration <YourMigrationName>
         // Update-Database
+    }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        buildTwo_OneToMany(modelBuilder);
+        buildManyToMany(modelBuilder);
+        SeedData(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
 

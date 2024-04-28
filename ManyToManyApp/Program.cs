@@ -4,6 +4,37 @@ using Microsoft.EntityFrameworkCore;
 
 var context = new ManyToManyContext();
 
+// Two One-to-Many
+context.StudentCourses.ExecuteDelete();
+context.Students.ExecuteDelete();
+context.Courses.ExecuteDelete();
+
+// Insert new student and new course with navigation property
+context.Students.Add(new Student
+{
+    Id = 1,
+    Name = "test",
+    // To use navigation property to add to linked table (course and studentcourse) 
+    StudentCourses = new List<StudentCourse> { new StudentCourse {  Course = new Course { Id = 1, Name = "test course" } } }
+});
+context.SaveChanges();
+
+// Insert new course, add new student and update existing student and link to new course
+context.Courses.Add(new Course
+{
+    Id = 2,
+    Name = "test course 2",
+    StudentCourses = new List<StudentCourse> { new StudentCourse { Student = new Student { Id = 2, Name = "test 2" } }, new StudentCourse { StudentId = 1 } }
+});
+
+context.SaveChanges();
+
+var studentCourse = context.StudentCourses.ToList();
+var student = context.Students.Include(x => x.StudentCourses).ToList();
+var courses = context.Courses.Include(x => x.StudentCourses).ToList();
+
+
+// Many-to-Many
 // Clear db for testing
 context.Posts.ExecuteDelete();
 context.Tags.ExecuteDelete();
@@ -49,3 +80,5 @@ foreach (var t in allTags)
 {
     Console.WriteLine(t.Id);
 }
+
+

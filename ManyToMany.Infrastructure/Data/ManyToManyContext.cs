@@ -31,7 +31,24 @@ public partial class ManyToManyContext : DbContext
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
 
-            entity.HasMany(d => d.Tags).WithMany(p => p.Posts)
+
+            // Specifying the Modeling in Using entity does work if the column names for the foreign keys don't follow naming conventions
+            // below tries to remap the the column names but doesnt work.
+            //entity
+            //    .HasMany(d => d.Tags)
+            //    .WithMany(p => p.Posts)
+            //    .UsingEntity<PostsToTagsJoinTable>(
+            //        l => l.HasOne<Tag>().WithMany().HasForeignKey(e => e.TagsId),
+            //        r => r.HasOne<Post>().WithMany().HasForeignKey(e => e.PostsId),
+            //        j => {
+            //            j.Property("PostId").HasColumnName("PostsId");
+            //            j.Property("TagId").HasColumnName("TagsId");
+            //        });
+
+
+            // Using entity but specify the table name works when remapping the foreignkey
+            entity
+                .HasMany(d => d.Tags).WithMany(p => p.Posts)
                 .UsingEntity<Dictionary<string, object>>(
                     "PostsToTagsJoinTable",
                     r => r.HasOne<Tag>().WithMany().HasForeignKey("TagsId"),
@@ -41,6 +58,16 @@ public partial class ManyToManyContext : DbContext
                         j.HasKey("PostsId", "TagsId");
                         j.ToTable("PostsToTagsJoinTable");
                     });
+
+            // alternative way 
+            //entity.HasMany(e => e.Tags)
+            //    .WithMany(e => e.Posts)
+            //    .UsingEntity(
+            //        "PostsToTagsJoinTable",
+            //        l => l.HasOne(typeof(Tag)).WithMany().HasForeignKey("TagsId").HasPrincipalKey(nameof(Tag.Id)),
+            //        r => r.HasOne(typeof(Post)).WithMany().HasForeignKey("PostsId").HasPrincipalKey(nameof(Post.Id)),
+            //        j => j.HasKey("PostsId", "TagsId")
+            //    );
         });
         // Entity already linked in Post don't need to specify it for the Tag.
         modelBuilder.Entity<Tag>(entity =>
